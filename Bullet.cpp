@@ -42,9 +42,11 @@ void Bullet::drawBullet() {
 	Vector2 destVector{ this->dest_x, this->dest_y };
 	Vector2 currentVector{ this->x, this->y };
 
-	if (!(CheckCollisionCircles(destVector,2,currentVector, this->radius))) {
-		this->reachDest = true;
+	if (!(CheckCollisionCircles(destVector, 2, currentVector, this->radius))) {
 		DrawCircle(this->x, this->y, this->radius, GREEN);
+	}
+	else {
+		this->reachDest = true;
 	}
 
 }

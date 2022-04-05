@@ -86,7 +86,7 @@ void Player::drawSwordPointer(){
 
 void Player::shoot(std::vector<Bullet> &bulletList) {
 
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && bulletList.size() < 30) {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && bulletList.size() < 5) {
         /*DrawCircle(this->swordPointerX, this->swordPointerY,5,GREEN);*/
         Bullet newBullet(this->swordPointerX,this->swordPointerY);
 

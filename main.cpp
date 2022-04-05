@@ -38,7 +38,7 @@ int main()
 
     SetTargetFPS(60);
     
-    Player circle(screenWidth/2, screenHeight/2);
+    Player Player(screenWidth/2, screenHeight/2);
     SpawnVolume spawner(screenWidth,screenHeight);
 
     std::vector<Enemy> enemyList;
@@ -54,42 +54,50 @@ int main()
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         
-        // Check to Move Player
-        if (circle.checkAlive()) {
-            circle.movePlayer();
-            circle.shoot(bulletList);
+        // Check to Move Player if Alive.
+        if (Player.checkAlive()) {
+            
+            // Update Player Position
+            Player.movePlayer();
 
+            // Create a Bullet.
+            Player.shoot(bulletList);
+
+            // Update each Bullet
             for (Bullet& bullet : bulletList) {
                 bullet.calcBullet();
             }
 
+            // Update each Enemy
             for (Enemy &enemy : enemyList) {
                 if (enemy.getAlive()) {
 
-                    int index = 0;
-                    for (it = bulletList.begin(); it != bulletList.end(); it++ ,index++) {
+                    for (it = bulletList.begin(); it != bulletList.end(); it++) {
 
-                        if (bulletList[index].getReachDest()) {
-
-                            //bulletList.erase(bulletList.begin() + index);
-
-                            //bulletList.erase(
-                            //    std::remove_if(bulletList.begin(), bulletList.end(), [](Bullet x) {return x.getReachDest(); })
-                            //);
-                        }
-
+                        // Check each Bullet Collision with an each Enemy
                         enemy.checkPlayerAttack(*it);
+
                     }
-                    enemy.moveEnemy(circle);
-                    enemy.checkCollidePlayer(circle);
+
+                    // Remove Bullets that are 'dead'
+                    bulletList.erase(
+                        std::remove_if(bulletList.begin(), bulletList.end(), [&](Bullet x) {return (x.reachDest) ; })
+                        , bulletList.end());
+
+                    // Update Enemy Position
+                    enemy.moveEnemy(Player);
+
+                    // Check and Update on Enemy collision with Player.
+                    enemy.checkCollidePlayer(Player);
                     
                 }
             }
 
+            // Update Enemy Spawner
             spawner.spawnEnemy(enemyList);
         }
         if (IsKeyDown(KEY_P)) {
-            circle.setAlive(false);
+            Player.setAlive(false);
         }
 
         //----------------------------------------------------------------------------------
@@ -99,12 +107,12 @@ int main()
 
         ClearBackground(RAYWHITE);
         
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        DrawText("Survive", screenWidth/2-40, screenHeight/2 + 10, 20, LIGHTGRAY);
 
         // Draw Player
-        if (circle.checkAlive()) {
-            circle.drawPlayer();
-            circle.drawSwordPointer();
+        if (Player.checkAlive()) {
+            Player.drawPlayer();
+            Player.drawSwordPointer();
 
             for (Enemy enemy : enemyList) {
                 for (Bullet& bullet : bulletList) {

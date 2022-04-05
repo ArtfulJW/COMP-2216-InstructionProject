@@ -8,7 +8,7 @@ SpawnVolume::SpawnVolume(int width, int height) {
 }
 
 void SpawnVolume::spawnEnemy(std::vector<Enemy> &enemyList){
-	if (GetRandomValue(0,100) >= 95) {
+	if (GetRandomValue(0,100) >= 98) {
 		Enemy newEnemy(GetRandomValue(0, width), GetRandomValue(0, height));
 		enemyList.push_back(newEnemy);
 	}
