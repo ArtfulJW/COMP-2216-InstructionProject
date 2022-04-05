@@ -70,6 +70,7 @@ int main()
 
             // Update each Enemy
             for (Enemy &enemy : enemyList) {
+
                 if (enemy.getAlive()) {
 
                     for (it = bulletList.begin(); it != bulletList.end(); it++) {
